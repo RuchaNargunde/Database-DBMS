@@ -16,6 +16,25 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `advocate`
+--
+
+DROP TABLE IF EXISTS `advocate`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `advocate` (
+  `user_id` varchar(10) NOT NULL,
+  `total_cases` int DEFAULT NULL,
+  `specialisation` varchar(6) DEFAULT NULL,
+  `cases_won` int DEFAULT NULL,
+  `win_percentage` int DEFAULT NULL,
+  PRIMARY KEY (`user_id`),
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `advocate_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `cases`
 --
 
@@ -33,18 +52,10 @@ CREATE TABLE `cases` (
   `status` varchar(45) NOT NULL,
   PRIMARY KEY (`case_id`),
   KEY `user_id_idx` (`user_id`),
+  CONSTRAINT `case_id` FOREIGN KEY (`case_id`) REFERENCES `clients` (`case_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `user_id` FOREIGN KEY (`user_id`) REFERENCES `advocate` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `cases`
---
-
-LOCK TABLES `cases` WRITE;
-/*!40000 ALTER TABLE `cases` DISABLE KEYS */;
-/*!40000 ALTER TABLE `cases` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `clients`
@@ -57,22 +68,29 @@ CREATE TABLE `clients` (
   `user_id` varchar(10) NOT NULL,
   `case_id` int NOT NULL AUTO_INCREMENT,
   `payment_status` varchar(20) DEFAULT NULL,
-  `password` varchar(50) NOT NULL,
   PRIMARY KEY (`case_id`),
   KEY `user_id` (`user_id`),
-  CONSTRAINT `case_id` FOREIGN KEY (`case_id`) REFERENCES `cases` (`case_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `client_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `clients`
+-- Table structure for table `users`
 --
 
-LOCK TABLES `clients` WRITE;
-/*!40000 ALTER TABLE `clients` DISABLE KEYS */;
-/*!40000 ALTER TABLE `clients` ENABLE KEYS */;
-UNLOCK TABLES;
+DROP TABLE IF EXISTS `users`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `users` (
+  `user_id` varchar(10) NOT NULL,
+  `user_name` varchar(50) NOT NULL,
+  `password` varchar(50) NOT NULL,
+  `contact_no` bigint NOT NULL,
+  `email_address` varchar(100) NOT NULL,
+  `address` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -83,4 +101,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-04-15 18:42:46
+-- Dump completed on 2020-04-16 22:25:05
